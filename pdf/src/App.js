@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-// import "./FileUpload.css";
+import "";
 const App = ({}) => {
   const [file, setFile] = useState(null);
   const [url, setUrl] = useState(null);
@@ -71,6 +71,7 @@ const App = ({}) => {
       </form>
       <button onClick={() => handleFileAccess(url)}>View Pdf</button>
     </div>
+    
   );
 };
 export default App;
