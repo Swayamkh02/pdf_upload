@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
-import "";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import AiwithText from './AiwithText';
+import GradeCase from './GradeCase';
 const App = ({}) => {
   const [file, setFile] = useState(null);
   const [url, setUrl] = useState(null);
@@ -52,25 +54,32 @@ const App = ({}) => {
     window.open(url, '_blank');
   };
   return (
-    <div className="top">
-      <form className="form" onSubmit={handleSubmit}>
-        <label htmlFor="file-upload" className="choose">
-          Choose Image
-        </label>
-        <input
-          // disabled={!account}
-          type="file"
-          id="file-upload"
-          name="data"
-          onChange={retrieveFile}
-        />
-        <span className="textArea">Image: {fileName}</span>
-        <button type="submit" className="upload" disabled={!file}>
-          Upload File
-        </button>
-      </form>
-      <button onClick={() => handleFileAccess(url)}>View Pdf</button>
-    </div>
+    <Router>
+        <div className="top">
+          <form className="form" onSubmit={handleSubmit}>
+            <label htmlFor="file-upload" className="choose">
+              Choose Image
+            </label>
+            <input
+              // disabled={!account}
+              type="file"
+              id="file-upload"
+              name="data"
+              onChange={retrieveFile}
+            />
+            <span className="textArea">Image: {fileName}</span>
+            <button type="submit" className="upload" disabled={!file}>
+              Upload File
+            </button>
+          </form>
+          <button onClick={() => handleFileAccess(url)}>View Pdf</button>
+        </div>
+        <Routes>
+          <Route path="/bot" element={<AiwithText />} />
+          <Route path="/grade" element={<GradeCase/>} />
+        </Routes>
+    
+    </Router>
     
   );
 };

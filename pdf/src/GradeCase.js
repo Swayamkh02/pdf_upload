@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import ReactTable from 'react-table'; // Assuming you're using React Table
 
-const AiwithText = () => {
+
+const GradeCase = () => {
     const genAI = new GoogleGenerativeAI('AIzaSyAZd7u_oOGUApMoylIsBERj1TiD6P9ptXc');
 
     const [search, setSearch] = useState('');
     const [aiResponse, setResponse] = useState('');
     const [loading, setLoading] = useState(false);
-
+    const [grade,setGrade]=useState('');
     async function aiRun() {
         setLoading(true);
         setResponse('');
@@ -27,13 +29,35 @@ const AiwithText = () => {
           {
               "category": "HARM_CATEGORY_DANGEROUS",
               "threshold": "BLOCK_NONE",
-          }];
+          },
+          {
+            "category": "HARM_CATEGORY_UNSPECIFIED",
+            "threshold": "BLOCK_NONE",
+            },
+            {
+            "category": "HARM_CATEGORY_DEROGATORY",
+            "threshold": "BLOCK_NONE",
+            },
+            {
+            "category": "HARM_CATEGORY_TOXICITY",
+            "threshold": "BLOCK_NONE",
+            },
+            {
+            "category": "HARM_CATEGORY_MEDICAL",
+            "threshold": "BLOCK_NONE",
+            },
+            {
+            "category": "HARM_CATEGORY_SEXUAL",
+            "threshold": "BLOCK_NONE",
+            },            
+        ];
         const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-        const prompt = `fetch relevant provisions of Indian laws and Constitution related to the following case , also name and define in one line all the laws and IPC which are applicable and used in the case: {try to give response in table format in case of laws} ,also can you give a grade between 1 to 10 to the query and put it at the last enclosed in 'Grade:' based on the severity of the input incident ${search} `;
-        const result = await model.generateContent(prompt,safety_settings
-            );
+        const prompt = `You have to analyze the situation given and give a grade between 1 to 10 to the situation and put it like  'Grade:' based on the swiftness or response time required by the police for the  given query incident (more the grade higher priority) Incident->:${search} `;
+        const result = await model.generateContent(prompt,safety_settings);
         const response = await result.response;
         const text = await formatResponse(response.candidates[0].content.parts[0].text);
+        setGrade(extractGrade(response.candidates[0].content.parts[0].text));
+        console.log(grade);
         setResponse(text);
         setLoading(false);
     }
@@ -45,7 +69,6 @@ const AiwithText = () => {
     const handleClick = () => {
         aiRun();
     }
-
     const formatResponse = async (response) => {
         // Check if the response contains a pattern indicative of a table
         if (/\|.*\|/.test(response)) {
@@ -123,7 +146,21 @@ const AiwithText = () => {
         text = `<div class="normal-text">${text}</div>`;
         return text;
     }
-
+    
+    function extractGrade(text) {
+        // Regular expression to match the grade number
+        const gradeRegex = /Grade: (\d+)/;
+    
+        // Use the match() method to search for the grade pattern in the text
+        const match = text.match(gradeRegex);
+    
+        // If a match is found, return the extracted grade number
+        if (match && match[1]) {
+            return parseInt(match[1]); // Convert the matched string to a number
+        } else {
+            return null; // Return null if no grade is found in the text
+        }
+    }
     return (
         <div className="container mt-3">
             <div className="d-flex">
@@ -152,4 +189,4 @@ const AiwithText = () => {
     );
 };
 
-export default AiwithText;
+export default GradeCase;
