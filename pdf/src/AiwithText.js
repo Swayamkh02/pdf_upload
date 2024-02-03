@@ -135,6 +135,7 @@ const App = () => {
                 }}
                 >Search</button>
             </div>
+            <div></div>
 
             {loading && aiResponse === '' ? (
                 <p className="mt-3 text-white">Loading ...</p>
