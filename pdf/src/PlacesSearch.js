@@ -239,4 +239,4 @@ document.getElementById('generateBtn').addEventListener('click', generateContent
 // };
 
 // export default GeoLocationComponent;
-
+0

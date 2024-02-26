@@ -49,7 +49,7 @@ const GradeCase = () => {
             {
             "category": "HARM_CATEGORY_SEXUAL",
             "threshold": "BLOCK_NONE",
-            },            
+            }           
         ];
         const model = genAI.getGenerativeModel({ model: "gemini-pro" });
         const prompt = `You have to analyze the situation given and give a grade between 1 to 10 to the situation and put it like  'Grade:' based on the swiftness or response time required by the police for the  given query incident (more the grade higher priority) Incident->:${search} `;
@@ -134,6 +134,7 @@ const GradeCase = () => {
 
     const formatText = (text) => {
         // Use regular expression to replace **bold** with <strong>bold</strong>
+        
         text = text.replace(/\*\*(.*?)\*\*/g, (match, boldText) => {
             return `<strong>${boldText}</strong>`;
         });

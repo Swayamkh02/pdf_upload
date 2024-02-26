@@ -1,7 +1,7 @@
 
 .top{
   width: 320px;
-  background: #fff480;
+  background: #10100f;
   color: black;
   position: relative;
   border-radius: 2.5em;
@@ -60,6 +60,7 @@
   width: 100%;
   height: 100%;
   cursor: pointer !important;
+  /* background-color: black; */
 }
 
 @keyframes flicker {
